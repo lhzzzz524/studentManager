@@ -1,31 +1,66 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <top-nav></top-nav>
+        <div class="main_box">
+            <left-menu>
+                <template #stuList>
+                    <router-link tag="li" to="/stuList" class="item">学生列表</router-link>
+                </template>
+                <template #addStu>
+                    <router-link tag="li" to="/addStu" class="item">添加学生</router-link>
+                </template>
+            </left-menu>
+            <div class="content">
+                <router-view />
+            </div>
+        </div>
     </div>
-    <router-view/>
-  </div>
 </template>
 
+<script>
+import TopNav from './components/TopNav';
+import LeftMenu from './components/LeftMenu';
+export default {
+    components: {
+        TopNav,
+        LeftMenu
+    }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    html,
+    body,
+    #app {
+        position: relative;
+        z-index: -10;
+        width: 100%;
+        height: 100%;
+    }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    .main_box {
+        position: relative;
+        z-index: -2;
+        width: 100%;
+        height: calc(100% - 80px);
+        background-color: rgb(230, 230, 230);
+    }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+    .content {
+        position: relative;
+        float: left;
+        width: calc(100% - 160px);
+        height: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+        /* 当视口宽度小于768px时，侧边导航消失，将conten区宽度设为100% */
+        .content {
+            width: 100%;
+        }
+    }
 </style>
