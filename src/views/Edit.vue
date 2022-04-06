@@ -9,6 +9,7 @@
         <td>年龄</td>
         <td>手机号</td>
         <td>住址</td>
+        <td>操作</td>
       </thead>
       <tbody>
         <tr v-for="(item, index) in stuList" :key="index">
@@ -19,9 +20,13 @@
           <td>{{ item.birth }}</td>
           <td>{{ item.phone }}</td>
           <td>{{ item.address }}</td>
+          <td>
+            <button class="btn edit" @click="editStuInfo(index)">编辑</button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <update-stu v-if="isShowDialog" @click.native="hideDialog"></update-stu>
   </div>
 </template>
 
@@ -38,7 +43,6 @@ export default {
   },
   mounted() {
     if (mock.status === "success") {
-      //将数据注入store
       const data = mock.data.findByPage;
       this.initStuList({ data });
     }
@@ -47,13 +51,22 @@ export default {
     return {};
   },
   computed: {
+    ...mapState(["isShowDialog"]),
     ...mapState(["stuList"]),
   },
   methods: {
     ...mapMutations(["initStuList"]),
+    ...mapMutations(["updateStuInfo"]),
+    ...mapMutations(["updateIndex"]),
+    ...mapMutations(["updateIsShowDialog"]),
     ...mapMutations(["updateStuList"]),
-    delStuInfo(index) {
-      this.updateStuList({ index });
+    editStuInfo(index) {
+      this.updateStuInfo({ index });
+      this.updateIndex(index);
+      this.updateIsShowDialog(true);
+    },
+    hideDialog(event) {
+      this.updateIsShowDialog(false);
     },
   },
 };
@@ -92,8 +105,5 @@ table tbody {
 }
 .del:hover {
   background-color: rgb(179, 78, 75);
-}
-td {
-  height: 32px;
 }
 </style>

@@ -9,6 +9,7 @@
         <td>年龄</td>
         <td>手机号</td>
         <td>住址</td>
+        <td>操作</td>
       </thead>
       <tbody>
         <tr v-for="(item, index) in stuList" :key="index">
@@ -19,9 +20,13 @@
           <td>{{ item.birth }}</td>
           <td>{{ item.phone }}</td>
           <td>{{ item.address }}</td>
+          <td>
+            <button class="btn del" @click="delStuInfo(index)">删除</button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <update-stu v-if="isShowDialog" @click.native="hideDialog"></update-stu>
   </div>
 </template>
 
@@ -47,6 +52,7 @@ export default {
     return {};
   },
   computed: {
+    ...mapState(["isShowDialog"]),
     ...mapState(["stuList"]),
   },
   methods: {
@@ -92,8 +98,5 @@ table tbody {
 }
 .del:hover {
   background-color: rgb(179, 78, 75);
-}
-td {
-  height: 32px;
 }
 </style>
